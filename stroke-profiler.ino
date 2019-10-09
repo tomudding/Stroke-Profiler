@@ -25,8 +25,8 @@ BLEService profilerService("12566370-6212-4161-A625-566743024140");
 BLEFloatCharacteristic imuCharacteristic("12566370-6212-4161-B625-566743024140", BLERead | BLENotify);
 
 void setup() {
-    Serial.begin(9600);
-    while (!Serial);
+    Serial.begin(115200);
+    //while (!Serial);
 
     pinMode(LED_BUILTIN, OUTPUT);
     
