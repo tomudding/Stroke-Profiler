@@ -26,20 +26,18 @@ BLEFloatCharacteristic imuCharacteristic("12566370-6212-4161-B625-566743024140",
 
 void setup() {
     Serial.begin(115200);
-    //while (!Serial);
-
     pinMode(LED_BUILTIN, OUTPUT);
     
     // begin BLE initialisation
     if (!BLE.begin()) {
         Serial.println("Failed to initialise BLE!");
-        while (1);
+        while(1);
     }
 
     // begin IMU initialisation
     if (!IMU.begin()) {
         Serial.println("Failed to initialise IMU!");
-        while (1);
+        while(1);
     }
 
     // set advertised local name and service UUID, add characteristic
@@ -73,7 +71,6 @@ void loop() {
                 imuCharacteristic.writeValue(i);
             }
         }
-
 
         // disconnected from central
         digitalWrite(LED_BUILTIN, LOW);
