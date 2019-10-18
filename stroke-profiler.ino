@@ -61,7 +61,7 @@ void loop() {
         Serial.print("Connected to central: "); Serial.println(central.address());
         digitalWrite(LED_BUILTIN, HIGH);
 
-        std::vector<float> data_vector(20);
+        std::vector<float> data_vector(2);
 
         // as long as connected to central do
         while (central.connected()) {
@@ -80,27 +80,16 @@ void loop() {
 
 // generate vector from IMU data
 void getIMUVector(std::vector<float> &data_vector) {
-    unsigned int gyro_samples = 0;
-    unsigned int accl_samples = 0;
-
     float gyro_x, gyro_y, gyro_z, accl_x, accl_y, accl_z;
 
-    while (gyro_samples < 10) {
-        if (IMU.gyroscopeAvailable()) {
-            IMU.readGyroscope(gyro_x, gyro_y, gyro_z);
-
-            data_vector[gyro_samples] = map_float(gyro_x, -2000, 2000, -1, 1);
-            ++gyro_samples;
-        }
+    if (IMU.gyroscopeAvailable()) {
+        IMU.readGyroscope(gyro_x, gyro_y, gyro_z);
+        data_vector[0] = map_float(gyro_x, -2000, 2000, -1, 1);
     }
     
-    while (accl_samples < 10) {
-        if (IMU.accelerationAvailable()) {
-            IMU.readAcceleration(accl_x, accl_y, accl_z);
-                        
-            data_vector[accl_samples + 10] = map_float(accl_z, -4, 4, -1, 1);
-            ++accl_samples;
-        }
+    if (IMU.accelerationAvailable()) {
+        IMU.readAcceleration(accl_x, accl_y, accl_z);
+        data_vector[1] = map_float(accl_z, -4, 4, -1, 1);
     }
 }
 
